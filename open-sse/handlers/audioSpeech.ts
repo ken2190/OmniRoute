@@ -210,14 +210,7 @@ async function handleCoquiSpeech(providerConfig, body) {
     return upstreamErrorResponse(res, await res.text());
   }
 
-  const contentType = res.headers.get("content-type") || "audio/wav";
-  return new Response(res.body, {
-    status: 200,
-    headers: {
-      "Content-Type": contentType,
-      "Access-Control-Allow-Origin": getCorsOrigin(),
-    },
-  });
+  return audioStreamResponse(res, "audio/wav");
 }
 
 /**
@@ -238,14 +231,7 @@ async function handleTortoiseSpeech(providerConfig, body) {
     return upstreamErrorResponse(res, await res.text());
   }
 
-  const contentType = res.headers.get("content-type") || "audio/wav";
-  return new Response(res.body, {
-    status: 200,
-    headers: {
-      "Content-Type": contentType,
-      "Access-Control-Allow-Origin": getCorsOrigin(),
-    },
-  });
+  return audioStreamResponse(res, "audio/wav");
 }
 
 /**

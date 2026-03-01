@@ -221,8 +221,8 @@ async function handleSDWebUIVideoGeneration({ model, provider, providerConfig, b
     if (data.video) {
       videos.push({ b64_json: data.video, format: "mp4" });
     } else if (data.images) {
-      for (const img of data.images) {
-        videos.push({ b64_json: typeof img === "string" ? img : img.image, format: "mp4" });
+      if (log) {
+        log.warn("VIDEO", `${provider} sdwebui returned image frames instead of a video file. This is not currently supported.`);
       }
     }
 

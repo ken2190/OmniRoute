@@ -89,13 +89,19 @@ export function extractComfyOutputFiles(
   const files: Array<{ filename: string; subfolder: string; type: string }> = [];
 
   for (const nodeOutput of Object.values(historyEntry.outputs || {})) {
-    const outputs = (nodeOutput as any).images || (nodeOutput as any).gifs || (nodeOutput as any).audio || [];
-    for (const file of outputs) {
-      files.push({
-        filename: file.filename,
-        subfolder: file.subfolder || "",
-        type: file.type || "output",
-      });
+    for (const key in (nodeOutput as object)) {
+      const outputArray = (nodeOutput as any)[key];
+      if (Array.isArray(outputArray)) {
+        for (const file of outputArray) {
+          if (file && typeof file.filename === "string") {
+            files.push({
+              filename: file.filename,
+              subfolder: file.subfolder || "",
+              type: file.type || "output",
+            });
+          }
+        }
+      }
     }
   }
 
